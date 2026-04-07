@@ -128,10 +128,10 @@ export default function Editor() {
 
   if (isLoading) {
     return (
-      <div className="h-screen w-screen bg-[#0B0B0B] flex items-center justify-center">
+      <div className="h-screen w-screen bg-[#F5F4F1] flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-8 h-8 border-2 border-white/10 border-t-white/50 rounded-full animate-spin" />
-          <p className="text-[#555555] text-xs tracking-widest uppercase">Carregando design</p>
+          <div className="w-8 h-8 border-2 border-[#1C1B1A]/10 border-t-[#1C1B1A]/50 rounded-full animate-spin" />
+          <p className="text-[#A8A49E] text-xs tracking-widest uppercase">Carregando design</p>
         </div>
       </div>
     )
@@ -139,10 +139,10 @@ export default function Editor() {
 
   if (error || !design) {
     return (
-      <div className="h-screen w-screen bg-[#0B0B0B] flex items-center justify-center">
+      <div className="h-screen w-screen bg-[#F5F4F1] flex items-center justify-center">
         <div className="text-center">
-          <p className="text-white text-sm mb-4">Design não encontrado.</p>
-          <button onClick={() => navigate('/')} className="text-[#888888] text-xs underline">
+          <p className="text-[#1C1B1A] text-sm mb-4">Design não encontrado.</p>
+          <button onClick={() => navigate('/')} className="text-[#8A8580] text-xs underline">
             Voltar ao Dashboard
           </button>
         </div>
@@ -151,9 +151,9 @@ export default function Editor() {
   }
 
   return (
-    <div className="h-screen w-screen bg-[#0B0B0B] flex flex-col overflow-hidden">
+    <div className="h-screen w-screen bg-[#F5F4F1] flex flex-col overflow-hidden">
       {/* ── Barra Superior ─────────────────────────────────────────────────── */}
-      <header className="h-12 flex items-center justify-between px-4 border-b border-[#1A1A1A] shrink-0 z-10">
+      <header className="h-12 flex items-center justify-between px-4 border-b border-[#E8E5E0] bg-white shrink-0 z-10 shadow-sm">
         {/* Esquerda */}
         <div className="flex items-center gap-3">
           <button
@@ -161,16 +161,16 @@ export default function Editor() {
               if (isDirty && !confirm('Há alterações não salvas. Deseja sair mesmo assim?')) return
               navigate('/')
             }}
-            className="text-[#555555] hover:text-white transition-colors p-1"
+            className="text-[#8A8580] hover:text-[#1C1B1A] transition-colors p-1 rounded-md hover:bg-[#F0EDE8]"
           >
             <ArrowLeft size={16} />
           </button>
-          <div className="w-px h-4 bg-[#2B2B2B]" />
+          <div className="w-px h-4 bg-[#E8E5E0]" />
           <div className="flex items-center gap-2">
-            <div className="w-5 h-5 bg-white rounded-sm flex items-center justify-center">
-              <span className="text-black font-black text-[9px]">L</span>
+            <div className="w-5 h-5 bg-[#1C1B1A] rounded-sm flex items-center justify-center">
+              <span className="text-white font-black text-[9px]">L</span>
             </div>
-            <span className="text-[#555555] text-xs tracking-widest uppercase hidden sm:block">
+            <span className="text-[#A8A49E] text-xs tracking-widest uppercase hidden sm:block">
               {design.template?.name}
             </span>
           </div>
@@ -182,25 +182,25 @@ export default function Editor() {
             type="text"
             value={designName}
             onChange={(e) => setDesignName(e.target.value)}
-            className="bg-transparent text-white text-sm text-center font-medium focus:outline-none focus:bg-[#1A1A1A] rounded px-2 py-1 transition-colors max-w-[200px]"
+            className="bg-transparent text-[#1C1B1A] text-sm text-center font-medium focus:outline-none focus:bg-[#F5F4F1] rounded px-2 py-1 transition-colors max-w-[200px]"
           />
           {isDirty && (
-            <span className="w-1.5 h-1.5 bg-amber-400 rounded-full ml-2" title="Alterações não salvas" />
+            <span className="w-1.5 h-1.5 bg-amber-500 rounded-full ml-2" title="Alterações não salvas" />
           )}
         </div>
 
         {/* Direita */}
         <div className="flex items-center gap-2">
           {/* Modo de visualização */}
-          <div className="hidden md:flex items-center bg-[#1A1A1A] rounded-md p-0.5">
+          <div className="hidden md:flex items-center bg-[#F0EDE8] rounded-lg p-0.5">
             {(['2d', 'split', '3d'] as const).map((mode) => (
               <button
                 key={mode}
                 onClick={() => setViewMode(mode)}
-                className={`px-3 py-1 text-xs rounded transition-colors ${
+                className={`px-3 py-1 text-xs rounded-md transition-all ${
                   viewMode === mode
-                    ? 'bg-[#2B2B2B] text-white'
-                    : 'text-[#555555] hover:text-white'
+                    ? 'bg-white text-[#1C1B1A] shadow-sm font-medium'
+                    : 'text-[#8A8580] hover:text-[#1C1B1A]'
                 }`}
               >
                 {mode === '2d' ? '2D' : mode === '3d' ? '3D' : '2D + 3D'}
@@ -211,10 +211,10 @@ export default function Editor() {
           <button
             onClick={() => saveMutation.mutate()}
             disabled={!isDirty || isSaving}
-            className="flex items-center gap-1.5 bg-white hover:bg-[#EAEAEA] disabled:bg-[#1A1A1A] disabled:text-[#444444] text-black text-xs font-semibold tracking-wider uppercase px-3 py-2 rounded-md transition-colors"
+            className="flex items-center gap-1.5 bg-[#1C1B1A] hover:bg-[#2D2C2B] disabled:bg-[#E8E5E0] disabled:text-[#A8A49E] text-white text-xs font-semibold tracking-wider uppercase px-3 py-2 rounded-lg transition-colors shadow-sm"
           >
             {isSaving ? (
-              <span className="w-3 h-3 border border-black/20 border-t-black rounded-full animate-spin" />
+              <span className="w-3 h-3 border border-white/20 border-t-white rounded-full animate-spin" />
             ) : (
               <Save size={12} />
             )}
@@ -233,7 +233,7 @@ export default function Editor() {
           <div
             className={`flex flex-col ${
               viewMode === 'split' ? 'flex-1' : 'flex-1'
-            } border-r border-[#1A1A1A] overflow-hidden`}
+            } border-r border-[#E8E5E0] overflow-hidden`}
           >
             <EditorCanvas template={design.template!} />
           </div>

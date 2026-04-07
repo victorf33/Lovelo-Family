@@ -18,8 +18,8 @@
   }
 
   body {
-    background-color: #0B0B0B;
-    color: #FFFFFF;
+    background-color: #F5F4F1;
+    color: #1C1B1A;
     font-family: 'Inter', system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -31,36 +31,35 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: #1A1A1A;
+    background: #EDECEA;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #333333;
+    background: #C8C5BF;
     border-radius: 2px;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #555555;
+    background: #A8A49E;
   }
 
   ::selection {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: rgba(28, 27, 26, 0.12);
   }
 }
 
 @layer components {
   .panel-divider {
-    @apply border-t border-[#2B2B2B];
+    @apply border-t border-[#E8E5E0];
   }
 
   .zone-interactive {
     cursor: pointer;
-    transition: opacity 0.15s ease;
+    transition: filter 0.15s ease, opacity 0.15s ease;
   }
 
   .zone-interactive:hover {
-    opacity: 0.85;
-    filter: brightness(1.15);
+    filter: brightness(0.94);
   }
 }
 

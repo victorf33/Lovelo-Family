@@ -1,219 +1,410 @@
-/**
- * Template SVG da Camisa de Ciclismo Manga Curta
- *
- * Coordenadas para um viewBox de 800 x 900.
- * Cada zona é um elemento SVG com id e data-zone.
- *
- * Atenção: Em produção, substitua este SVG por arte técnica
- * criada por um designer em Illustrator/Inkscape.
- */
-
 export const JERSEY_SHORT_ZONES = [
-  { zone_name: 'corpo_frontal',   label: 'Corpo Frontal' },
-  { zone_name: 'corpo_traseiro',  label: 'Corpo Traseiro' },
-  { zone_name: 'manga_esquerda',  label: 'Manga Esquerda' },
-  { zone_name: 'manga_direita',   label: 'Manga Direita' },
-  { zone_name: 'gola',            label: 'Gola' },
-  { zone_name: 'faixa_ziper',     label: 'Faixa do Zíper' },
-  { zone_name: 'laterais',        label: 'Laterais' },
+  { zone_name: 'corpo_frontal',    label: 'Corpo Frontal' },
+  { zone_name: 'corpo_traseiro',   label: 'Corpo Traseiro' },
+  { zone_name: 'manga_esquerda',   label: 'Manga Esquerda' },
+  { zone_name: 'manga_direita',    label: 'Manga Direita' },
+  { zone_name: 'gola',             label: 'Gola' },
+  { zone_name: 'faixa_ziper',      label: 'Faixa do Zíper' },
+  { zone_name: 'laterais',         label: 'Laterais' },
   { zone_name: 'bolsos_traseiros', label: 'Bolsos Traseiros' },
 ]
 
 /**
- * SVG inline da camisa manga curta — visão frontal achatada.
+ * Jersey manga curta — visão frontal
+ * viewBox 0 0 460 560
+ * Centro: x=230
  *
- * Estrutura:
- * - corpo_frontal: painel principal da frente
- * - manga_esquerda / manga_direita: mangas
- * - gola: gola no topo
- * - faixa_ziper: faixa central do zíper
- * - laterais: painéis laterais
+ * Zonas:
+ *  - corpo_frontal : painel central (inclui yoke/ombros) com V-neck
+ *  - laterais      : painéis laterais finos
+ *  - manga_esquerda / manga_direita : mangas curtas com cuff arredondado
+ *  - gola          : faixa da gola (preenchendo o V)
+ *  - faixa_ziper   : strip central do zíper
  */
 export const JERSEY_SHORT_SVG_FRONT = `
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 900" id="jersey-short-front">
-  <!-- Sombra geral -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 560" id="jersey-short-front">
   <defs>
-    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
-      <feDropShadow dx="0" dy="2" stdDeviation="6" flood-color="rgba(0,0,0,0.4)"/>
+    <filter id="jersey-drop-shadow" x="-10%" y="-6%" width="120%" height="118%">
+      <feDropShadow dx="0" dy="5" stdDeviation="14" flood-color="rgba(0,0,0,0.09)"/>
     </filter>
-    <clipPath id="jersey-clip">
-      <path d="M 200 80 C 200 80 280 60 400 60 C 520 60 600 80 600 80
-               L 680 140 L 640 200 L 580 160
-               L 580 820 L 220 820 L 220 160
-               L 160 200 L 120 140 Z"/>
-    </clipPath>
+    <linearGradient id="body-shine" x1="0.25" y1="0" x2="0.75" y2="1">
+      <stop offset="0%"   stop-color="rgba(255,255,255,0.20)"/>
+      <stop offset="60%"  stop-color="rgba(255,255,255,0.04)"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0.04)"/>
+    </linearGradient>
+    <linearGradient id="sleeve-shine-l" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="rgba(255,255,255,0.16)"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0.04)"/>
+    </linearGradient>
+    <linearGradient id="sleeve-shine-r" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="rgba(255,255,255,0.16)"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0.04)"/>
+    </linearGradient>
   </defs>
 
-  <!-- Grupo principal com filtro de sombra -->
-  <g filter="url(#shadow)">
-
-    <!-- ── Corpo Frontal (painel central) ───────────────────────── -->
-    <path
-      id="zona_corpo_frontal"
-      data-zone="corpo_frontal"
-      d="M 260 160 L 540 160 L 540 820 L 260 820 Z"
-      fill="#0B0B0B"
-      class="zone-interactive"
-    />
-
-    <!-- ── Laterais ──────────────────────────────────────────────── -->
-    <path
-      id="zona_laterais"
-      data-zone="laterais"
-      d="M 220 160 L 260 160 L 260 820 L 220 820 Z
-         M 540 160 L 580 160 L 580 820 L 540 820 Z"
-      fill="#111111"
-      class="zone-interactive"
-    />
+  <g filter="url(#jersey-drop-shadow)">
 
     <!-- ── Manga Esquerda ─────────────────────────────────────────── -->
     <path
       id="zona_manga_esquerda"
       data-zone="manga_esquerda"
-      d="M 160 200 L 220 160 L 220 320 L 160 310 Z"
-      fill="#0B0B0B"
+      d="M 145 98
+         C 118 93 78 107 50 138
+         C 31 157 26 182 32 204
+         C 35 217 46 227 59 230
+         C 74 233 97 228 108 218
+         C 112 208 111 170 108 130
+         C 120 110 134 100 145 98 Z"
+      fill="#E4E2DC"
       class="zone-interactive"
     />
+    <!-- Brilho manga esquerda -->
+    <path
+      d="M 145 98
+         C 118 93 78 107 50 138
+         C 31 157 26 182 32 204
+         C 35 217 46 227 59 230
+         C 74 233 97 228 108 218
+         C 112 208 111 170 108 130
+         C 120 110 134 100 145 98 Z"
+      fill="url(#sleeve-shine-l)"
+      pointer-events="none"
+    />
 
-    <!-- ── Manga Direita ──────────────────────────────────────────── -->
+    <!-- ── Manga Direita ───────────────────────────────────────────── -->
     <path
       id="zona_manga_direita"
       data-zone="manga_direita"
-      d="M 640 200 L 580 160 L 580 320 L 640 310 Z"
-      fill="#0B0B0B"
+      d="M 315 98
+         C 342 93 382 107 410 138
+         C 429 157 434 182 428 204
+         C 425 217 414 227 401 230
+         C 386 233 363 228 352 218
+         C 348 208 349 170 352 130
+         C 340 110 326 100 315 98 Z"
+      fill="#E4E2DC"
       class="zone-interactive"
     />
-
-    <!-- ── Ombro / Conexão mangas ─────────────────────────────────── -->
+    <!-- Brilho manga direita -->
     <path
-      id="zona_ombros"
-      data-zone="corpo_frontal"
-      d="M 200 80 C 200 80 280 60 400 60 C 520 60 600 80 600 80
-         L 640 200 L 580 160 L 540 160 L 260 160 L 220 160 L 160 200 Z"
-      fill="#0B0B0B"
+      d="M 315 98
+         C 342 93 382 107 410 138
+         C 429 157 434 182 428 204
+         C 425 217 414 227 401 230
+         C 386 233 363 228 352 218
+         C 348 208 349 170 352 130
+         C 340 110 326 100 315 98 Z"
+      fill="url(#sleeve-shine-r)"
+      pointer-events="none"
+    />
+
+    <!-- ── Lateral Esquerda ────────────────────────────────────────── -->
+    <path
+      id="zona_laterais"
+      data-zone="laterais"
+      d="M 108 130
+         L 145 98
+         L 145 522
+         Q 130 540 112 534
+         L 108 510 Z"
+      fill="#D8D5CE"
       class="zone-interactive"
     />
 
-    <!-- ── Gola ──────────────────────────────────────────────────── -->
-    <ellipse
+    <!-- ── Lateral Direita ─────────────────────────────────────────── -->
+    <path
+      id="zona_laterais_direita"
+      data-zone="laterais"
+      d="M 352 130
+         L 315 98
+         L 315 522
+         Q 330 540 348 534
+         L 352 510 Z"
+      fill="#D8D5CE"
+      class="zone-interactive"
+    />
+
+    <!-- ── Corpo Frontal (inclui ombros/yoke + V-neck) ───────────── -->
+    <path
+      id="zona_corpo_frontal"
+      data-zone="corpo_frontal"
+      d="M 195 80
+         C 173 86 155 92 145 98
+         L 145 522
+         Q 145 542 230 548
+         Q 315 542 315 522
+         L 315 98
+         C 305 92 287 86 265 80
+         L 230 150
+         Z"
+      fill="#E4E2DC"
+      class="zone-interactive"
+    />
+    <!-- Brilho corpo -->
+    <path
+      d="M 195 80
+         C 173 86 155 92 145 98
+         L 145 522
+         Q 145 542 230 548
+         Q 315 542 315 522
+         L 315 98
+         C 305 92 287 86 265 80
+         L 230 150 Z"
+      fill="url(#body-shine)"
+      pointer-events="none"
+    />
+
+    <!-- ── Gola (V-neck collar band) ──────────────────────────────── -->
+    <path
       id="zona_gola"
       data-zone="gola"
-      cx="400" cy="80" rx="80" ry="28"
-      fill="#1A1A1A"
+      d="M 195 80
+         C 208 66 219 58 230 58
+         C 241 58 252 66 265 80
+         L 230 150 Z"
+      fill="#CBC8C0"
       class="zone-interactive"
     />
 
-    <!-- ── Faixa do Zíper ──────────────────────────────────────────── -->
+    <!-- ── Faixa do Zíper ─────────────────────────────────────────── -->
     <rect
       id="zona_faixa_ziper"
       data-zone="faixa_ziper"
-      x="388" y="90" width="24" height="480"
-      rx="4"
-      fill="#222222"
+      x="223" y="150" width="14" height="196"
+      rx="7"
+      fill="#B8B4AC"
       class="zone-interactive"
     />
 
-    <!-- ── Bordas e costuras (decorativas, não editáveis) ──────────── -->
+    <!-- ── Contorno geral ─────────────────────────────────────────── -->
     <path
-      d="M 200 80 C 200 80 280 60 400 60 C 520 60 600 80 600 80
-         L 680 140 L 640 200 L 580 160
-         L 580 820 L 220 820 L 220 160
-         L 160 200 L 120 140 Z"
+      d="M 195 80
+         C 208 66 219 58 230 58
+         C 241 58 252 66 265 80
+         C 287 86 305 92 315 98
+         C 342 93 382 107 410 138
+         C 429 157 434 182 428 204
+         C 425 217 414 227 401 230
+         C 386 233 363 228 352 218
+         C 348 208 349 170 352 130
+         L 315 98
+         L 315 522
+         Q 315 542 230 548
+         Q 145 542 145 522
+         L 145 98
+         L 108 130
+         C 111 170 112 208 108 218
+         C 97 228 74 233 59 230
+         C 46 227 35 217 32 204
+         C 26 182 31 157 50 138
+         C 78 107 118 93 145 98
+         C 155 92 173 86 195 80
+         L 230 150
+         L 265 80"
       fill="none"
-      stroke="rgba(255,255,255,0.08)"
+      stroke="rgba(0,0,0,0.09)"
       stroke-width="1.5"
+      stroke-linejoin="round"
+      stroke-linecap="round"
     />
 
-    <!-- Costura central vertical -->
-    <line x1="400" y1="90" x2="400" y2="820" stroke="rgba(255,255,255,0.04)" stroke-width="1" stroke-dasharray="4,4"/>
+    <!-- Costura central (decorativa) -->
+    <line
+      x1="230" y1="154" x2="230" y2="522"
+      stroke="rgba(0,0,0,0.05)"
+      stroke-width="1"
+      stroke-dasharray="5,5"
+    />
+
+    <!-- Costuras laterais (decorativas) -->
+    <line x1="145" y1="98" x2="145" y2="522" stroke="rgba(0,0,0,0.05)" stroke-width="1"/>
+    <line x1="315" y1="98" x2="315" y2="522" stroke="rgba(0,0,0,0.05)" stroke-width="1"/>
+
   </g>
 </svg>
 `
 
+/**
+ * Jersey manga curta — visão traseira
+ * Mesma geometria, sem V-neck e sem zíper.
+ * Gola crew-neck (traseira é mais alta/larga).
+ * Bolsos traseiros na borda inferior.
+ */
 export const JERSEY_SHORT_SVG_BACK = `
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 900" id="jersey-short-back">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 560" id="jersey-short-back">
   <defs>
-    <filter id="shadow-back" x="-5%" y="-5%" width="110%" height="110%">
-      <feDropShadow dx="0" dy="2" stdDeviation="6" flood-color="rgba(0,0,0,0.4)"/>
+    <filter id="jersey-drop-shadow-back" x="-10%" y="-6%" width="120%" height="118%">
+      <feDropShadow dx="0" dy="5" stdDeviation="14" flood-color="rgba(0,0,0,0.09)"/>
     </filter>
+    <linearGradient id="body-shine-back" x1="0.25" y1="0" x2="0.75" y2="1">
+      <stop offset="0%"   stop-color="rgba(255,255,255,0.20)"/>
+      <stop offset="60%"  stop-color="rgba(255,255,255,0.04)"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0.04)"/>
+    </linearGradient>
   </defs>
 
-  <g filter="url(#shadow-back)">
+  <g filter="url(#jersey-drop-shadow-back)">
+
+    <!-- ── Manga Esquerda (traseira) ──────────────────────────────── -->
+    <path
+      id="zona_manga_esquerda_back"
+      data-zone="manga_esquerda"
+      d="M 145 98
+         C 118 93 78 107 50 138
+         C 31 157 26 182 32 204
+         C 35 217 46 227 59 230
+         C 74 233 97 228 108 218
+         C 112 208 111 170 108 130
+         C 120 110 134 100 145 98 Z"
+      fill="#E4E2DC"
+      class="zone-interactive"
+    />
+
+    <!-- ── Manga Direita (traseira) ───────────────────────────────── -->
+    <path
+      id="zona_manga_direita_back"
+      data-zone="manga_direita"
+      d="M 315 98
+         C 342 93 382 107 410 138
+         C 429 157 434 182 428 204
+         C 425 217 414 227 401 230
+         C 386 233 363 228 352 218
+         C 348 208 349 170 352 130
+         C 340 110 326 100 315 98 Z"
+      fill="#E4E2DC"
+      class="zone-interactive"
+    />
+
+    <!-- ── Lateral Esquerda (traseira) ────────────────────────────── -->
+    <path
+      id="zona_laterais_back_l"
+      data-zone="laterais"
+      d="M 108 130
+         L 145 98
+         L 145 522
+         Q 130 540 112 534
+         L 108 510 Z"
+      fill="#D8D5CE"
+      class="zone-interactive"
+    />
+
+    <!-- ── Lateral Direita (traseira) ─────────────────────────────── -->
+    <path
+      id="zona_laterais_back_r"
+      data-zone="laterais"
+      d="M 352 130
+         L 315 98
+         L 315 522
+         Q 330 540 348 534
+         L 352 510 Z"
+      fill="#D8D5CE"
+      class="zone-interactive"
+    />
+
     <!-- ── Corpo Traseiro ─────────────────────────────────────────── -->
     <path
       id="zona_corpo_traseiro"
       data-zone="corpo_traseiro"
-      d="M 260 160 L 540 160 L 540 780 L 260 780 Z"
-      fill="#0B0B0B"
+      d="M 195 80
+         C 173 86 155 92 145 98
+         L 145 460
+         L 315 460
+         L 315 98
+         C 305 92 287 86 265 80
+         C 252 66 241 58 230 58
+         C 219 58 208 66 195 80 Z"
+      fill="#E4E2DC"
       class="zone-interactive"
     />
-
-    <!-- ── Laterais ──────────────────────────────────────────────── -->
+    <!-- Brilho corpo traseiro -->
     <path
-      id="zona_laterais_back"
-      data-zone="laterais"
-      d="M 220 160 L 260 160 L 260 780 L 220 780 Z
-         M 540 160 L 580 160 L 580 780 L 540 780 Z"
-      fill="#111111"
-      class="zone-interactive"
+      d="M 195 80
+         C 173 86 155 92 145 98
+         L 145 460 L 315 460 L 315 98
+         C 305 92 287 86 265 80
+         C 252 66 241 58 230 58
+         C 219 58 208 66 195 80 Z"
+      fill="url(#body-shine-back)"
+      pointer-events="none"
     />
 
-    <!-- ── Bolsos Traseiros ───────────────────────────────────────── -->
+    <!-- ── Área dos bolsos traseiros (fundo) ──────────────────────── -->
     <path
       id="zona_bolsos_traseiros"
       data-zone="bolsos_traseiros"
-      d="M 270 700 L 530 700 L 530 780 L 270 780 Z"
-      fill="#161616"
-      class="zone-interactive"
-    />
-    <!-- Divisores dos bolsos -->
-    <line x1="356" y1="700" x2="356" y2="780" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-    <line x1="444" y1="700" x2="444" y2="780" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
-
-    <!-- ── Mangas Traseiras ────────────────────────────────────────── -->
-    <path
-      id="zona_manga_esquerda_back"
-      data-zone="manga_esquerda"
-      d="M 160 200 L 220 160 L 220 320 L 160 310 Z"
-      fill="#0B0B0B"
-      class="zone-interactive"
-    />
-    <path
-      id="zona_manga_direita_back"
-      data-zone="manga_direita"
-      d="M 640 200 L 580 160 L 580 320 L 640 310 Z"
-      fill="#0B0B0B"
+      d="M 145 460
+         L 315 460
+         L 315 522
+         Q 315 542 230 548
+         Q 145 542 145 522 Z"
+      fill="#CCCAC3"
       class="zone-interactive"
     />
 
-    <!-- Ombros traseiros -->
-    <path
-      data-zone="corpo_traseiro"
-      d="M 200 80 C 200 80 280 60 400 60 C 520 60 600 80 600 80
-         L 640 200 L 580 160 L 540 160 L 260 160 L 220 160 L 160 200 Z"
-      fill="#0B0B0B"
-      class="zone-interactive"
+    <!-- Divisores dos 3 bolsos -->
+    <line
+      x1="196" y1="462" x2="196" y2="530"
+      stroke="rgba(0,0,0,0.08)" stroke-width="1.5" stroke-linecap="round"
+    />
+    <line
+      x1="264" y1="462" x2="264" y2="530"
+      stroke="rgba(0,0,0,0.08)" stroke-width="1.5" stroke-linecap="round"
+    />
+    <!-- Abertura dos bolsos (borda superior) -->
+    <line
+      x1="148" y1="462" x2="312" y2="462"
+      stroke="rgba(0,0,0,0.10)" stroke-width="1.5" stroke-linecap="round"
     />
 
-    <!-- Gola traseira -->
+    <!-- ── Gola traseira (crew-neck) ──────────────────────────────── -->
     <path
       id="zona_gola_back"
       data-zone="gola"
-      d="M 340 75 C 340 55 460 55 460 75 C 460 95 340 95 340 75"
-      fill="#1A1A1A"
+      d="M 195 80
+         C 208 92 220 98 230 98
+         C 240 98 252 92 265 80
+         C 252 66 241 58 230 58
+         C 219 58 208 66 195 80 Z"
+      fill="#CBC8C0"
       class="zone-interactive"
     />
 
-    <!-- Contorno -->
+    <!-- ── Contorno geral (traseiro) ──────────────────────────────── -->
     <path
-      d="M 200 80 C 200 80 280 60 400 60 C 520 60 600 80 600 80
-         L 680 140 L 640 200 L 580 160
-         L 580 820 L 220 820 L 220 160
-         L 160 200 L 120 140 Z"
+      d="M 195 80
+         C 208 66 219 58 230 58
+         C 241 58 252 66 265 80
+         C 287 86 305 92 315 98
+         C 342 93 382 107 410 138
+         C 429 157 434 182 428 204
+         C 425 217 414 227 401 230
+         C 386 233 363 228 352 218
+         C 348 208 349 170 352 130
+         L 315 98
+         L 315 522
+         Q 315 542 230 548
+         Q 145 542 145 522
+         L 145 98
+         L 108 130
+         C 111 170 112 208 108 218
+         C 97 228 74 233 59 230
+         C 46 227 35 217 32 204
+         C 26 182 31 157 50 138
+         C 78 107 118 93 145 98
+         C 155 92 173 86 195 80
+         C 208 92 220 98 230 98
+         C 240 98 252 92 265 80"
       fill="none"
-      stroke="rgba(255,255,255,0.08)"
+      stroke="rgba(0,0,0,0.09)"
       stroke-width="1.5"
+      stroke-linejoin="round"
+      stroke-linecap="round"
     />
+
+    <!-- Costuras laterais -->
+    <line x1="145" y1="98" x2="145" y2="522" stroke="rgba(0,0,0,0.05)" stroke-width="1"/>
+    <line x1="315" y1="98" x2="315" y2="522" stroke="rgba(0,0,0,0.05)" stroke-width="1"/>
+
   </g>
 </svg>
 `

@@ -5,10 +5,10 @@ import type { GarmentTemplate } from '@/types'
 
 // Paleta de cores sugeridas para ciclismo
 const PRESET_COLORS = [
-  '#0B0B0B', '#1A1A1A', '#2B2B2B', '#FFFFFF', '#EAEAEA', '#CFCFCF',
-  '#FF0000', '#CC0000', '#FF4400', '#FF8800', '#FFCC00', '#FFE500',
-  '#00AA44', '#007733', '#00CCBB', '#0055CC', '#0033AA', '#3300CC',
-  '#6600CC', '#AA00CC', '#CC0066', '#FF0066', '#FF6699', '#FFCCDD',
+  '#FFFFFF', '#F5F4F1', '#E8E5E0', '#1C1B1A', '#3D3B39', '#6B6864',
+  '#FF3B30', '#CC0000', '#FF6B35', '#FF9500', '#FFCC00', '#FFE55C',
+  '#34C759', '#00A86B', '#00C7BE', '#007AFF', '#0040DD', '#5856D6',
+  '#AF52DE', '#FF2D55', '#FF6B9D', '#FFB3C1', '#A8EDEA', '#D4E8FF',
 ]
 
 interface Props {
@@ -17,7 +17,7 @@ interface Props {
 
 export default function ColorPanel({ template }: Props) {
   const { config, selectedZone, selectZone, setZoneColor } = useEditorStore()
-  const [pickerColor, setPickerColor] = useState('#0B0B0B')
+  const [pickerColor, setPickerColor] = useState('#E4E2DC')
 
   const zones = template.zones ?? []
 
@@ -48,11 +48,11 @@ export default function ColorPanel({ template }: Props) {
   return (
     <div className="flex flex-col gap-0">
       {/* Seleção de zona */}
-      <div className="p-4 border-b border-[#1A1A1A]">
-        <p className="text-[#666666] text-xs tracking-widest uppercase mb-3">Zonas da Peça</p>
+      <div className="p-4 border-b border-[#F0EDE8]">
+        <p className="text-[#A8A49E] text-xs tracking-widest uppercase mb-3">Zonas da Peça</p>
         <div className="space-y-1">
           {zones.length === 0 ? (
-            <p className="text-[#444444] text-xs">Nenhuma zona disponível.</p>
+            <p className="text-[#C8C5BF] text-xs">Nenhuma zona disponível.</p>
           ) : (
             zones.map((zone) => {
               const zoneColor = getZoneColor(config, zone.zone_name)
@@ -62,17 +62,17 @@ export default function ColorPanel({ template }: Props) {
                 <button
                   key={zone.id}
                   onClick={() => handleZoneSelect(zone.zone_name)}
-                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-md transition-colors text-left ${
+                  className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-all text-left ${
                     isSelected
-                      ? 'bg-white/10 border border-white/20'
-                      : 'hover:bg-white/5 border border-transparent'
+                      ? 'bg-[#F0EDE8] border border-[#D8D5CE]'
+                      : 'hover:bg-[#F8F6F3] border border-transparent'
                   }`}
                 >
                   <div
-                    className="w-5 h-5 rounded border border-white/10 shrink-0"
+                    className="w-5 h-5 rounded-md border border-black/10 shrink-0 shadow-sm"
                     style={{ backgroundColor: zoneColor }}
                   />
-                  <span className="text-white text-xs">{zone.label}</span>
+                  <span className="text-[#1C1B1A] text-xs font-medium">{zone.label}</span>
                 </button>
               )
             })
@@ -83,7 +83,7 @@ export default function ColorPanel({ template }: Props) {
         <button
           onClick={handleApplyToAll}
           disabled={!pickerColor}
-          className="mt-3 w-full text-[#666666] hover:text-white text-xs py-1.5 border border-[#2B2B2B] hover:border-[#444444] rounded transition-colors disabled:opacity-30"
+          className="mt-3 w-full text-[#8A8580] hover:text-[#1C1B1A] text-xs py-1.5 border border-[#E8E5E0] hover:border-[#C8C5BF] rounded-lg transition-colors disabled:opacity-30"
         >
           Aplicar cor a todas as zonas
         </button>
@@ -91,13 +91,12 @@ export default function ColorPanel({ template }: Props) {
 
       {/* Color Picker */}
       {selectedZone && (
-        <div className="p-4 border-b border-[#1A1A1A]">
-          <p className="text-[#666666] text-xs tracking-widest uppercase mb-3">
+        <div className="p-4 border-b border-[#F0EDE8]">
+          <p className="text-[#A8A49E] text-xs tracking-widest uppercase mb-3">
             Cor — {selectedZone.replace(/_/g, ' ')}
           </p>
 
-          {/* Picker customizado */}
-          <div className="rounded-lg overflow-hidden">
+          <div className="rounded-xl overflow-hidden shadow-sm">
             <HexColorPicker
               color={pickerColor}
               onChange={handleColorChange}
@@ -107,15 +106,15 @@ export default function ColorPanel({ template }: Props) {
 
           {/* Input HEX */}
           <div className="flex items-center gap-2 mt-3">
-            <span className="text-[#555555] text-xs">#</span>
+            <span className="text-[#A8A49E] text-xs font-mono">#</span>
             <HexColorInput
               color={pickerColor}
               onChange={handleColorChange}
-              className="flex-1 bg-[#0B0B0B] border border-[#2B2B2B] rounded px-2 py-1.5 text-white text-xs font-mono focus:outline-none focus:border-[#555555]"
+              className="flex-1 bg-[#F5F4F1] border border-[#E8E5E0] rounded-lg px-2 py-1.5 text-[#1C1B1A] text-xs font-mono focus:outline-none focus:border-[#A8A49E] transition-colors"
               prefixed={false}
             />
             <div
-              className="w-8 h-8 rounded border border-white/10 shrink-0"
+              className="w-8 h-8 rounded-lg border border-black/10 shrink-0 shadow-sm"
               style={{ backgroundColor: pickerColor }}
             />
           </div>
@@ -124,17 +123,17 @@ export default function ColorPanel({ template }: Props) {
 
       {/* Cores predefinidas */}
       <div className="p-4">
-        <p className="text-[#666666] text-xs tracking-widest uppercase mb-3">Paleta Sugerida</p>
+        <p className="text-[#A8A49E] text-xs tracking-widest uppercase mb-3">Paleta Sugerida</p>
         <div className="grid grid-cols-6 gap-1.5">
           {PRESET_COLORS.map((color) => (
             <button
               key={color}
               onClick={() => handlePresetClick(color)}
               title={color}
-              className={`aspect-square rounded border transition-all ${
+              className={`aspect-square rounded-lg border transition-all shadow-sm ${
                 pickerColor.toUpperCase() === color.toUpperCase()
-                  ? 'border-white scale-110'
-                  : 'border-white/10 hover:border-white/40 hover:scale-105'
+                  ? 'border-[#1C1B1A] scale-110 shadow-md'
+                  : 'border-black/8 hover:border-black/20 hover:scale-105'
               }`}
               style={{ backgroundColor: color }}
             />

@@ -16,14 +16,11 @@ export default function EditorCanvas({ template }: Props) {
 
   const { config, selectedZone, hoveredZone, selectedTool, selectZone, hoverZone } = useEditorStore()
 
-  // Resolve o SVG correto
   const getSVGContent = useCallback(() => {
-    // Em produção, buscar o SVG do template via URL
-    // Por ora, usa os templates inline
     if (template.type === 'jersey_short') {
       return side === 'frente' ? JERSEY_SHORT_SVG_FRONT : JERSEY_SHORT_SVG_BACK
     }
-    return JERSEY_SHORT_SVG_FRONT // fallback
+    return JERSEY_SHORT_SVG_FRONT
   }, [template.type, side])
 
   // Injeta o SVG e configura os listeners de zona
@@ -36,7 +33,6 @@ export default function EditorCanvas({ template }: Props) {
     const svg = container.querySelector('svg')
     if (!svg) return
 
-    // Coleta todos os elementos com data-zone
     const zoneElements = svg.querySelectorAll('[data-zone]')
 
     // Aplica cores das zonas
@@ -50,7 +46,6 @@ export default function EditorCanvas({ template }: Props) {
       }
     })
 
-    // Listeners de interação
     const handleMouseOver = (e: MouseEvent) => {
       const target = (e.target as SVGElement).closest('[data-zone]') as SVGElement | null
       if (target) hoverZone(target.getAttribute('data-zone'))
@@ -88,41 +83,34 @@ export default function EditorCanvas({ template }: Props) {
       const zoneName = el.getAttribute('data-zone')
       const svgEl = el as SVGElement
 
-      // Remove estados anteriores
       svgEl.style.filter = ''
       svgEl.style.opacity = ''
       svgEl.style.strokeWidth = ''
       svgEl.style.stroke = ''
 
       if (zoneName === selectedZone) {
-        svgEl.style.filter = 'brightness(1.3)'
-        svgEl.style.stroke = 'rgba(255,255,255,0.5)'
+        svgEl.style.filter = 'brightness(0.88)'
+        svgEl.style.stroke = 'rgba(0,0,0,0.35)'
         svgEl.style.strokeWidth = '2'
       } else if (zoneName === hoveredZone && !selectedZone) {
-        svgEl.style.filter = 'brightness(1.15)'
-        svgEl.style.opacity = '0.9'
+        svgEl.style.filter = 'brightness(0.93)'
       }
     })
   }, [selectedZone, hoveredZone])
 
-  // Renderiza elementos gráficos sobrepostos ao SVG
-  const renderOverlayElements = () => {
-    // Elementos de texto e logos são renderizados como HTML sobreposto
-    // Em uma implementação completa, seriam renderizados dentro do próprio SVG
-    return null
-  }
-
   return (
-    <div className="flex flex-col h-full bg-[#0E0E0E]">
+    <div className="flex flex-col h-full bg-[#EDECEA]">
       {/* ── Barra de controle do canvas ───────────────────────────────────── */}
-      <div className="flex items-center justify-between px-4 py-2 border-b border-[#1A1A1A] shrink-0">
-        <div className="flex items-center gap-1 bg-[#1A1A1A] rounded-md p-0.5">
+      <div className="flex items-center justify-between px-4 py-2 border-b border-[#E3E0DB] bg-white shrink-0">
+        <div className="flex items-center gap-1 bg-[#F0EDE8] rounded-lg p-0.5">
           {(['frente', 'costas'] as ViewSide[]).map((s) => (
             <button
               key={s}
               onClick={() => setSide(s)}
-              className={`px-3 py-1 text-xs rounded transition-colors capitalize ${
-                side === s ? 'bg-[#2B2B2B] text-white' : 'text-[#555555] hover:text-white'
+              className={`px-3 py-1 text-xs rounded-md transition-all capitalize font-medium ${
+                side === s
+                  ? 'bg-white text-[#1C1B1A] shadow-sm'
+                  : 'text-[#8A8580] hover:text-[#1C1B1A]'
               }`}
             >
               {s === 'frente' ? 'Frente' : 'Costas'}
@@ -133,22 +121,22 @@ export default function EditorCanvas({ template }: Props) {
         {selectedZone && (
           <div className="flex items-center gap-2">
             <div
-              className="w-3 h-3 rounded-full border border-white/20"
+              className="w-3 h-3 rounded-full border border-black/10 shadow-sm"
               style={{ backgroundColor: getZoneColor(config, selectedZone) }}
             />
-            <span className="text-[#888888] text-xs capitalize">
+            <span className="text-[#8A8580] text-xs capitalize">
               {selectedZone.replace(/_/g, ' ')}
             </span>
             <button
               onClick={() => selectZone(null)}
-              className="text-[#444444] hover:text-white text-xs transition-colors"
+              className="text-[#C8C5BF] hover:text-[#1C1B1A] text-xs transition-colors"
             >
               ✕
             </button>
           </div>
         )}
 
-        <div className="text-[#333333] text-xs">
+        <div className="text-[#C8C5BF] text-xs">
           {template.name}
         </div>
       </div>
@@ -158,19 +146,28 @@ export default function EditorCanvas({ template }: Props) {
         ref={containerRef}
         className="flex-1 flex items-center justify-center overflow-hidden relative p-8"
       >
+        {/* Grade de fundo sutil */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage: `
+              linear-gradient(rgba(0,0,0,0.035) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(0,0,0,0.035) 1px, transparent 1px)
+            `,
+            backgroundSize: '24px 24px',
+          }}
+        />
+
         {/* SVG da peça */}
         <div
           ref={svgContainerRef}
-          className="w-full h-full max-w-[500px] max-h-[680px] relative"
+          className="w-full h-full max-w-[480px] max-h-[680px] relative z-10"
           style={{ cursor: selectedTool === 'select' ? 'default' : 'crosshair' }}
         />
 
-        {/* Overlay de elementos, logos, textos */}
-        {renderOverlayElements()}
-
         {/* Dica de interação */}
         {!selectedZone && (
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-[#333333] text-xs pointer-events-none">
+          <div className="absolute bottom-5 left-1/2 -translate-x-1/2 text-[#C8C5BF] text-xs pointer-events-none tracking-wide">
             Clique em uma zona para editar
           </div>
         )}
